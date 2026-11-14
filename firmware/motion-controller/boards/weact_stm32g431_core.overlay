@@ -1,0 +1,7 @@
+&fdcan1 {
+	status = "okay";
+	pinctrl-0 = <&fdcan1_rx_pb8 &fdcan1_tx_pb9>;
+	pinctrl-names = "default";
+    clocks = <&rcc STM32_CLOCK(APB1, 25)>,
+             <&rcc STM32_SRC_PLL_Q FDCAN_SEL(1)>;
+};
