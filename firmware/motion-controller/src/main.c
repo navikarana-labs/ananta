@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <assert.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/can.h>
 #include <zephyr/kernel.h>
@@ -59,8 +58,12 @@ int main(void) {
   }
 
   while (1) {
-    printk(
-        "Project Ananta - Motion Controller\nCAN Loopback Test Started...\n");
+    printk("Project Ananta - Motion Controller\n"
+           "CAN device ready\n"
+           "Loopback mode configured\n"
+           "RX filter registered: %d\n"
+           "CAN controller started\n\n",
+           filter_id);
     k_sleep(K_SECONDS(1));
   }
 }
