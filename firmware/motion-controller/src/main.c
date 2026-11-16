@@ -57,6 +57,26 @@ int main(void) {
     return -1;
   }
 
+  const struct can_frame frame = {
+      .id = 0x123, .dlc = 2, .flags = 0, .data = {0xAB, 0xCD}};
+
+  int send = can_send(dev, &frame, K_MSEC(100), NULL, NULL);
+
+  printk("response from can_send() = %d\n", send);
+
+  static struct can_frame frame_rec = {
+      .id = 0x123, .dlc = 2, .flags = 0, .data = {0}};
+
+  int rec = k_msgq_get(&can_rx_queue, &frame_rec, K_MSEC(100));
+
+  if (rec < 0) {
+    printk("Failed to receive CAN frame: %d\n", rec);
+    return -1;
+  } else {
+    printk("Received CAN frame: id=%#x, dlc=%d, data={%x, %x}\n", frame_rec.id,
+           frame_rec.dlc, frame_rec.data[0], frame_rec.data[1]);
+  }
+
   while (1) {
     printk("Project Ananta - Motion Controller\n"
            "CAN device ready\n"
